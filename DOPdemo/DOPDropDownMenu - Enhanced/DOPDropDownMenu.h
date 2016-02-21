@@ -97,11 +97,11 @@
 @property (nonatomic, assign) UITableViewCellStyle cellStyle; // default value1
 @property (nonatomic, strong) UIColor *indicatorColor;      // 三角指示器颜色
 @property (nonatomic, strong) UIColor *textColor;           // 文字title颜色
+@property (nonatomic, strong) UIFont *textFont;             // font
 @property (nonatomic, strong) UIColor *textSelectedColor;   // 文字title选中颜色
 @property (nonatomic, strong) UIColor *detailTextColor;     // detailText文字颜色
 @property (nonatomic, strong) UIFont *detailTextFont;       // font
 @property (nonatomic, strong) UIColor *separatorColor;      // 分割线颜色
-@property (nonatomic, assign) NSInteger fontSize;           // 字体大小
 // 当有二级列表item时，点击row 是否调用点击代理方法
 @property (nonatomic, assign) BOOL isClickHaveItemValid;
 

@@ -299,16 +299,24 @@
         _origin = origin;
         _currentSelectedMenudIndex = -1;
         _show = NO;
-        _fontSize = 14;
         _cellStyle = UITableViewCellStyleValue1;
         _separatorColor = kSeparatorColor;
         _textColor = kTextColor;
+        _textFont = [UIFont fontWithName:@"FuturaLT" size:14];
         _textSelectedColor = kTextSelectColor;
-        _detailTextFont = [UIFont systemFontOfSize:11];
+        _detailTextFont = [UIFont fontWithName:@"FuturaLT" size:11];
         _detailTextColor = kDetailTextColor;
         _indicatorColor = kTextColor;
         _tableViewHeight = IS_IPHONE_4_OR_LESS ? 200 : kTableViewHeight;
         _isClickHaveItemValid = YES;
+        
+        if (_textFont == nil) {
+            _textFont = [UIFont systemFontOfSize:14];
+        }
+        
+        if (_detailTextFont == nil) {
+            _detailTextFont = [UIFont systemFontOfSize:11];
+        }
         
         //lefttableView init
         _leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, 0) style:UITableViewStylePlain];
@@ -318,6 +326,7 @@
         _leftTableView.separatorColor = kSeparatorColor;
         _leftTableView.separatorInset = UIEdgeInsetsZero;
         _leftTableView.tableFooterView = [[UIView alloc]init];
+        _leftTableView.tag = 100;
         
         //righttableView init
         _rightTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x + self.frame.size.width/2, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, 0) style:UITableViewStylePlain];
@@ -327,6 +336,7 @@
         _rightTableView.separatorColor = kSeparatorColor;
         _rightTableView.separatorInset = UIEdgeInsetsZero;
         //_rightTableView.tableFooterView = [[UIView alloc]init];
+        _rightTableView.tag = 200;
         
         _buttomImageView = [[UIImageView alloc]initWithFrame:CGRectMake(origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, kButtomImageViewHeight)];
         _buttomImageView.image = [UIImage imageNamed:@"icon_chose_bottom"];
@@ -411,7 +421,8 @@
     CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
     layer.bounds = CGRectMake(0, 0, sizeWidth, size.height);
     layer.string = string;
-    layer.fontSize = _fontSize;
+    layer.font = (__bridge CFTypeRef)_textFont.fontName;
+    layer.fontSize = _textFont.pointSize;
     layer.alignmentMode = kCAAlignmentCenter;
     layer.truncationMode = kCATruncationEnd;
     layer.foregroundColor = color.CGColor;
@@ -426,7 +437,7 @@
 - (CGSize)calculateTitleSizeWithString:(NSString *)string
 {
     //CGFloat fontSize = 14.0;
-    NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:_fontSize]};
+    NSDictionary *dic = @{NSFontAttributeName: _textFont};
     CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
     return CGSizeMake(ceilf(size.width)+2, size.height);
 }
@@ -647,7 +658,7 @@
         cell.selectedBackgroundView = bg;
         cell.textLabel.highlightedTextColor = _textSelectedColor;
         cell.textLabel.textColor = _textColor;
-        cell.textLabel.font = [UIFont systemFontOfSize:_fontSize];
+        cell.textLabel.font = _textFont;
         if (_dataSourceFlags.detailTextForRowAtIndexPath || _dataSourceFlags.detailTextForItemsInRowAtIndexPath) {
             cell.detailTextLabel.textColor = _detailTextColor;
             cell.detailTextLabel.font = _detailTextFont;
