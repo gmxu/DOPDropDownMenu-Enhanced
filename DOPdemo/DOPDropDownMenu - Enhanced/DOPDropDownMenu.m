@@ -520,11 +520,11 @@
         [self.superview addSubview:view];
         [view.superview addSubview:self];
         [UIView animateWithDuration:0.2 animations:^{
-            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+            // view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
         }];
     } else {
         [UIView animateWithDuration:0.2 animations:^{
-            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+            // view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         } completion:^(BOOL finished) {
             [view removeFromSuperview];
         }];
