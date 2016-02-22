@@ -350,8 +350,10 @@
         _backGroundView = [[UIView alloc] initWithFrame:CGRectMake(origin.x, origin.y, screenSize.width, screenSize.height)];
         _backGroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         _backGroundView.opaque = NO;
-        UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped:)];
+        UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped:)];
+        gesture.minimumPressDuration = .001;
         [_backGroundView addGestureRecognizer:gesture];
+        _backGroundView.tag = 300;
         
         //add bottom shadow
         UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-0.5, screenSize.width, 0.5)];
@@ -479,11 +481,13 @@
     }
 }
 
-- (void)backgroundTapped:(UITapGestureRecognizer *)paramSender
+- (void)backgroundTapped:(UILongPressGestureRecognizer  *)paramSender
 {
-    [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
-        _show = NO;
-    }];
+    if (paramSender.state == UIGestureRecognizerStateBegan) {
+        [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+            _show = NO;
+        }];
+    }
 }
 
 #pragma mark - animation method
