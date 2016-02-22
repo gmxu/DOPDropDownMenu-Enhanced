@@ -161,6 +161,13 @@
     
 }
 
+- (void)hide
+{
+    [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+        _show = NO;
+    }];
+}
+
 - (void)selectDefalutIndexPath
 {
     [self selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0]];

@@ -123,6 +123,8 @@
 // 重新加载数据
 - (void)reloadData;
 
+- (void)hide;
+
 // 创建menu 第一次显示 不会调用点击代理，这个手动调用
 - (void)selectDefalutIndexPath;
 
