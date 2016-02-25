@@ -280,7 +280,7 @@
         [self.layer addSublayer:title];
         [tempTitles addObject:title];
         //indicator
-        CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 10, self.frame.size.height / 2)];
+        CAShapeLayer *indicator = [self createIndicatorWithColor:self.indicatorColor andPosition:CGPointMake((i + 1)*separatorLineInterval - 15, self.frame.size.height / 2)];
         [self.layer addSublayer:indicator];
         [tempIndicators addObject:indicator];
         
@@ -683,6 +683,21 @@
                 NSString *imageName = [_dataSource menu:self imageNameForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
                 if (imageName && imageName.length > 0) {
                     cell.imageView.image = [UIImage imageNamed:imageName];
+                    cell.imageView.image = [cell.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    cell.imageView.tintColor = [UIColor blackColor];
+                    
+                    UIGraphicsBeginImageContextWithOptions(cell.imageView.image.size, NO, cell.imageView.image.scale);
+                    CGContextRef context = UIGraphicsGetCurrentContext();
+                    CGContextTranslateCTM(context, 0, cell.imageView.image.size.height);
+                    CGContextScaleCTM(context, 1.0, -1.0);
+                    CGContextSetBlendMode(context, kCGBlendModeNormal);
+                    CGRect rect = CGRectMake(0, 0, cell.imageView.image.size.width, cell.imageView.image.size.height);
+                    CGContextClipToMask(context, rect, cell.imageView.image.CGImage);
+                    [_textSelectedColor setFill];
+                    CGContextFillRect(context, rect);
+                    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    cell.imageView.highlightedImage = newImage;
                 }else {
                     cell.imageView.image = nil;
                 }
